@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио веб-разработчика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #1a1a3e, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Профиль */
+        .profile {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            margin: 0 auto 20px;
+            box-shadow: 0 15px 35px rgba(245, 87, 108, 0.4);
+        }
+
+        .profile h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .profile .tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #f093fb;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .profile p {
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        /* Проекты */
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 1px;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(240, 147, 251, 0.4);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .project-icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+        }
+
+        .project-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .project-card .desc {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .project-card .link-btn {
+            display: inline-block;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .link-btn {
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        /* Контакты */
+        .contacts {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .contacts h3 {
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: #f093fb;
+        }
+
+        /* Адаптив */
+        @media (max-width: 500px) {
+            .profile h1 {
+                font-size: 1.6em;
+            }
+            .projects {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Профиль -->
+        <div class="profile">
+            <div class="avatar">👨‍💻</div>
+            <h1>Привет, я веб-разработчик</h1>
+            <div class="tag">HTML • CSS • JavaScript</div>
+            <p>Создаю современные одностраничные сайты, лендинги и интерактивные элементы. Работаю быстро, качественно и с душой. Готов помочь вашему бизнесу выглядеть достойно в интернете.</p>
+        </div>
+
+        <!-- Проекты -->
+        <h2 class="section-title">Мои работы</h2>
+        <div class="projects">
+            <a href="flowershop.html" class="project-card" target="_blank">
+                <div class="project-icon">🌸</div>
+                <h3>Лендинг цветочного магазина</h3>
+                <p class="desc">Современный адаптивный сайт с каталогом, формой заказа, анимациями и отзывами. Идеально для продажи цветов онлайн.</p>
+                <span class="link-btn">Смотреть проект →</span>
+            </a>
+
+            <a href="newyear2027.html" class="project-card" target="_blank">
+                <div class="project-icon">⏱️</div>
+                <h3>Таймер обратного отсчёта</h3>
+                <p class="desc">Интерактивный таймер до Нового года с динамическим фоном, который зависит от погоды и времени суток в городе пользователя.</p>
+                <span class="link-btn">Смотреть проект →</span>
+            </a>
+        </div>
+
+        <!-- Контакты -->
+        <div class="contacts">
+            <h3>Свяжитесь со мной</h3>
+            <div class="contact-row">
+                <span class="contact-item">📧 your@email.com</span>
+                <span class="contact-item">📞 +7 (XXX) XXX-XX-XX</span>
+                <span class="contact-item">💬 Telegram: @yournick</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
