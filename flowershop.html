@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цветочный магазин "Floralia" — свежие цветы с доставкой</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========== ШАПКА ========== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.7em;
+            font-weight: 700;
+            color: #e84393;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            font-size: 1.4em;
+        }
+
+        .nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #e84393;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #e84393;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(232, 67, 147, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(232, 67, 147, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #e84393;
+            border: 2px solid #e84393;
+        }
+
+        .btn-outline:hover {
+            background: #e84393;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #e84393;
+        }
+
+        /* ========== ГЛАВНЫЙ ЭКРАН (HERO) ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe8f0 30%, #fde8f0 60%, #fff0f5 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        /* Декоративные круги на фоне */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(232, 67, 147, 0.1), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(253, 121, 168, 0.12), transparent 70%);
+            border-radius: 50%;
+        }
+
+        /* Летающие лепестки */
+        .petals {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            font-size: 1.5em;
+            animation: floatDown linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatDown {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg) translateX(80px);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2em;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #2d1832;
+        }
+
+        .hero-text h1 .accent {
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.15em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-image .main-flower {
+            font-size: 15em;
+            animation: gentleSwing 4s ease-in-out infinite;
+            filter: drop-shadow(0 20px 40px rgba(232, 67, 147, 0.25));
+        }
+
+        @keyframes gentleSwing {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+
+        /* Мини-карточки вокруг цветка */
+        .floating-card {
+            position: absolute;
+            background: white;
+            border-radius: 15px;
+            padding: 12px 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #e84393;
+            animation: floatCard 3s ease-in-out infinite;
+        }
+
+        .floating-card.card-1 {
+            top: 10%;
+            right: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-card.card-2 {
+            bottom: 20%;
+            left: 0%;
+            animation-delay: 1s;
+        }
+
+        .floating-card.card-3 {
+            top: 30%;
+            left: 5%;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ========== КАТАЛОГ ========== */
+        .catalog {
+            padding: 100px 25px;
+            background: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.4em;
+            font-weight: 700;
+            color: #2d1832;
+            margin-bottom: 10px;
+        }
+
+        .section-title .subtitle {
+            color: #999;
+            font-size: 1.05em;
+        }
+
+        .section-title .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            margin: 15px auto 0;
+            border-radius: 5px;
+        }
+
+        .catalog-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 1px solid #f5f5f5;
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 45px rgba(232, 67, 147, 0.18);
+            border-color: #fde8f0;
+        }
+
+        .product-image {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7em;
+            background: linear-gradient(180deg, #fff5f9, #fff);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            color: #2d1832;
+        }
+
+        .product-info .desc {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .product-info .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #e84393;
+        }
+
+        .price old {
+            color: #bbb;
+            font-size: 0.7em;
+            text-decoration: line-through;
+            margin-left: 8px;
+            font-weight: 400;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.85em;
+            border-radius: 25px;
+            background: #fff0f5;
+            color: #e84393;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background: #e84393;
+            color: #fff;
+        }
+
+        /* ========== ПРЕИМУЩЕСТВА ========== */
+        .features {
+            padding: 100px 25px;
+            background: #fff5f9;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 25px;
+            background: #fff;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #2d1832;
+        }
+
+        .feature-card p {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* ========== ОТЗЫВЫ ========== */
+        .reviews {
+            padding: 100px 25px;
+            background: #fff;
+        }
+
+        .reviews-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .review-card {
+            background: #fff5f9;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #fde8f0;
+        }
+
+        .review-stars {
+            color: #f1c40f;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .review-text {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: #e84393;
+        }
+
+        /* ========== ФОРМА ЗАКАЗА ========== */
+        .order {
+            padding: 100px 25px;
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+        }
+
+        .order .section-title h2 {
+            color: #fff;
+        }
+
+        .order .section-title .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .order .section-title .divider {
+            background: #fff;
+        }
+
+        .order-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 25px;
+            padding: 45px 35px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #2d1832;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid #eee;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e84393;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(232, 67, 147, 0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.05em;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-full:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(232, 67, 147, 0.4);
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .form-success .success-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .form-success h3 {
+            color: #27ae60;
+            margin-bottom: 8px;
+        }
+
+        /* ========== ПОДВАЛ ========== */
+        .footer {
+            background: #2d1832;
+            color: #ccc;
+            padding: 50px 25px 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 6px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: #fd79a8;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        /* ========== АДАПТИВ ========== */
+        @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.2em;
+            }
+
+            .hero-image .main-flower {
+                font-size: 10em;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .floating-card {
+                display: none;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                gap: 15px;
+            }
+
+            .nav.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-text h1 {
+                font-size: 1.8em;
+            }
+
+            .hero-image .main-flower {
+                font-size: 7em;
+            }
+
+            .section-title h2 {
+                font-size: 1.7em;
+            }
+
+            .order-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== ШАПКА ========== -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <span>🌷</span> Floralia
+            </a>
+            <nav class="nav" id="nav">
+                <a href="#hero">Главная</a>
+                <a href="#catalog">Каталог</a>
+                <a href="#features">Почему мы</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#order">Заказать</a>
+            </nav>
+            <a href="#order" class="btn btn-primary">Заказать букет</a>
+            <button class="mobile-menu-btn" id="menuBtn">☰</button>
+        </div>
+    </header>
+
+    <!-- ========== ГЛАВНЫЙ ЭКРАН ========== -->
+    <section class="hero" id="hero">
+        <!-- Летающие лепестки -->
+        <div class="petals" id="petals"></div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Дарите <span class="accent">свежие цветы</span> с любовью</h1>
+                <p>🌸 Соберём букет вашей мечты за 2 часа. Бесплатная доставка по городу. Только свежие цветы из лучших теплиц мира.</p>
+                <div class="hero-buttons">
+                    <a href="#catalog" class="btn btn-primary">Смотреть каталог</a>
+                    <a href="#order" class="btn btn-outline">Быстрый заказ</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="main-flower">💐</div>
+                <div class="floating-card card-1">⭐ 4.9 на отзывах</div>
+                <div class="floating-card card-2">🚚 Доставка за 2ч</div>
+                <div class="floating-card card-3">🌿 Только свежее</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== КАТАЛОГ ========== -->
+    <section class="catalog" id="catalog">
+        <div class="section-title">
+            <h2>Наши букеты</h2>
+            <p class="subtitle">Выберите идеальный букет для вашего случая</p>
+            <div class="divider"></div>
+        </div>
+        <div class="catalog-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    🌹
+                    <span class="badge">Хит</span>
+                </div>
+                <div class="product-info">
+                    <h3>Классическая роза</h3>
+                    <p class="desc">25 алых роз в стильной упаковке</p>
+                    <div class="price-row">
+                        <span class="price">3 500 ₽ <old>4 200 ₽</old></span>
+                        <button class="btn-small">Заказать</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    🌸
+                    <span class="badge">Новинка</span>
+                </div>
+                <div class="product-info">
+                    <h3>Нежное облако</h3>
+                    <p class="desc">Пионы и гортензии в пастельных тонах</p>
+                    <div class="price-row">
+                        <span class="price">4 200 ₽</span>
+                        <button class="btn-small">Заказать</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    🌻
+                </div>
+                <div class="product-info">
+                    <h3>Солнечный день</h3>
+                    <p class="desc">Подсолнухи и ромашки — яркий букет</p>
+                    <div class="price-row">
+                        <span class="price">2 800 ₽ <old>3 200 ₽</old></span>
+                        <button class="btn-small">Заказать</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    🌷
+                </div>
+                <div class="product-info">
+                    <h3>Весенний микс</h3>
+                    <p class="desc">Тюльпаны, нарциссы и фрезии</p>
+                    <div class="price-row">
+                        <span class="price">3 100 ₽</span>
+                        <button class="btn-small">Заказать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ПРЕИМУЩЕСТВА ========== -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>Почему выбирают нас</h2>
+            <p class="subtitle">Мы делаем всё, чтобы ваш букет был идеальным</p>
+            <div class="divider"></div>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌿</div>
+                <h4>Только свежие цветы</h4>
+                <p>Поставки каждые 2 дня из лучших теплиц Голландии и Эквадора</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h4>Доставка за 2 часа</h4>
+                <p>Бесплатно по городу при заказе от 2 500 ₽</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎀</div>
+                <h4>Стильная упаковка</h4>
+                <p>Каждый букет упаковываем в крафтовую бумагу или дизайнерскую коробку</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h4>Поддержка 24/7</h4>
+                <p>Поможем выбрать букет в любое время через чат или по телефону</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ОТЗЫВЫ ========== -->
+    <section class="reviews" id="reviews">
+        <div class="section-title">
+            <h2>Отзывы наших клиентов</h2>
+            <p class="subtitle">Более 500 довольных покупателей в месяц</p>
+            <div class="divider"></div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+                <p class="review-text">"Заказал букет для девушки на день рождения. Доставили вовремя, цветы свежайшие, упаковка — просто восторг! Она была в полном восторге. Спасибо!"</p>
+                <div class="review-author">— Алексей К.</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+                <p class="review-text">"Понравилось, что можно заказать букет онлайн и не переживать. Всё привезли как на картинке, даже лучше. Рекомендую Floralia!"</p>
+                <div class="review-author">— Марина С.</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+                <p class="review-text">"Лучший цветочный в городе! Заказываю уже третий раз. Всегда свежие цветы, красивая упаковка и приятные бонусы."</p>
+                <div class="review-author">— Дмитрий В.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ФОРМА ЗАКАЗА ========== -->
+    <section class="order" id="order">
+        <div class="section-title">
+            <h2>Оформите заказ</h2>
+            <p class="subtitle">Мы перезвоним через 5 минут для подтверждения</p>
+            <div class="divider"></div>
+        </div>
+        <div class="order-form" id="orderForm">
+            <form id="flowerForm">
+                <div class="form-group">
+                    <label>Ваше имя</label>
+                    <input type="text" placeholder="Александр" required>
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" placeholder="+7 (999) 123-45-67" required>
+                </div>
+                <div class="form-group">
+                    <label>Выберите букет</label>
+                    <select required>
+                        <option value="">— Выберите из каталога —</option>
+                        <option value="classic">Классическая роза — 3 500 ₽</option>
+                        <option value="cloud">Нежное облако — 4 200 ₽</option>
+                        <option value="sun">Солнечный день — 2 800 ₽</option>
+                        <option value="spring">Весенний микс — 3 100 ₽</option>
+                        <option value="custom">Соберу свой букет (обсудим по телефону)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Адрес доставки</label>
+                    <input type="text" placeholder="Улица, дом, квартира" required>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий (необязательно)</label>
+                    <textarea placeholder="Пожелания по букету, открытка, время доставки..."></textarea>
+                </div>
+                <button type="submit" class="btn-full">🌸 Заказать букет</button>
+            </form>
+            <div class="form-success" id="formSuccess">
+                <div class="success-icon">✅</div>
+                <h3>Заказ принят!</h3>
+                <p>Мы перезвоним вам в течение 5 минут для подтверждения. Спасибо, что выбрали Floralia! 🌸</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ПОДВАЛ ========== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>🌸 Floralia</h4>
+                <p>Свежие цветы с доставкой по городу. Дарим радость каждый день!</p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📞 +7 (999) 123-45-67</p>
+                <p>📧 hello@floralia.ru</p>
+                <p>📍 ул. Цветочная, 15</p>
+            </div>
+            <div class="footer-col">
+                <h4>Разделы</h4>
+                <a href="#catalog">Каталог</a>
+                <a href="#features">Преимущества</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#order">Заказать</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Floralia. Все права защищены. Сделано с любовью 🌷
+        </div>
+    </footer>
+
+    <script>
+        // ========== ЛЕТАЮЩИЕ ЛЕПЕСТКИ ==========
+        const petalsContainer = document.getElementById('petals');
+        const petalEmojis = ['🌸', '🌺', '🌷', '💮', '🏵️', '🌼', '✿', '🌹'];
+
+        function createPetal() {
+            const petal = document.createElement('span');
+            petal.classList.add('petal');
+            petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.fontSize = (Math.random() * 1.5 + 0.8) + 'em';
+            petal.style.animationDuration = (Math.random() * 8 + 6) + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            petalsContainer.appendChild(petal);
+
+            // Удаляем лепесток после окончания анимации
+            setTimeout(() => {
+                petal.remove();
+            }, 14000);
+        }
+
+        // Создаём лепестки периодически
+        for (let i = 0; i < 12; i++) {
+            setTimeout(createPetal, i * 600);
+        }
+        setInterval(createPetal, 2500);
+
+        // ========== МОБИЛЬНОЕ МЕНЮ ==========
+        const menuBtn = document.getElementById('menuBtn');
+        const nav = document.getElementById('nav');
+
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuBtn.textContent = nav.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Закрываем меню при клике на ссылку
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                menuBtn.textContent = '☰';
+            });
+        });
+
+        // ========== ОБРАБОТКА ФОРМЫ ==========
+        const form = document.getElementById('flowerForm');
+        const formSuccess = document.getElementById('formSuccess');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            form.style.display = 'none';
+            formSuccess.style.display = 'block';
+            
+            // Через 5 секунд возвращаем форму (для демонстрации)
+            setTimeout(() => {
+                form.style.display = 'block';
+                formSuccess.style.display = 'none';
+                form.reset();
+            }, 5000);
+        });
+
+        // ========== ПЛАВНЫЙ СКРОЛЛ ДЛЯ ВСЕХ ЯКОРНЫХ ССЫЛОК ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const position = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: position, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ========== АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ ==========
+        const observerOptions = {
+            threshold:
