@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор стоимости ремонта</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+        .calculator {
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 45px 35px; max-width: 550px; width: 100%;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+        }
+        .calculator h1 { color: #fff; font-size: 1.8em; margin-bottom: 5px; text-align: center; }
+        .calculator .subtitle { color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 30px; font-size: 0.9em; }
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; color: rgba(255,255,255,0.8); margin-bottom: 6px; font-weight: 600; font-size: 0.9em; }
+        .form-group input, .form-group select { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.07); color: #fff; font-size: 0.95em; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #e94560; }
+        .form-group select option { background: #1a1a2e; color: #fff; }
+        .result { background: rgba(233,69,96,0.15); border-radius: 15px; padding: 25px; text-align: center; margin-top: 25px; display: none; border: 1px solid rgba(233,69,96,0.3); }
+        .result.show { display: block; animation: fadeIn 0.4s ease; }
+        .result .price { font-size: 2.5em; font-weight: 800; color: #e94560; }
+        .result .breakdown { color: rgba(255,255,255,0.6); font-size: 0.85em; margin-top: 10px; line-height: 1.6; }
+        .btn-calc { width: 100%; padding: 16px; border-radius: 15px; background: linear-gradient(135deg, #e94560, #c23152); color: #fff; border: none; font-weight: 700; font-size: 1.05em; cursor: pointer; letter-spacing: 1px; transition: all 0.3s ease; }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(233,69,96,0.4); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>🧱 Калькулятор ремонта</h1>
+        <p class="subtitle">Рассчитайте примерную стоимость ремонта вашей квартиры</p>
+        
+        <div class="form-group">
+            <label>Тип ремонта</label>
+            <select id="type">
+                <option value="cosmetic">Косметический</option>
+                <option value="capital">Капитальный</option>
+                <option value="euro">Евроремонт</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Площадь (м²)</label>
+            <input type="number" id="area" placeholder="Например, 45" min="10" max="500" value="45">
+        </div>
+        <div class="form-group">
+            <label>Количество комнат</label>
+            <select id="rooms">
+                <option value="1">1-комнатная</option>
+                <option value="2" selected>2-комнатная</option>
+                <option value="3">3-комнатная</option>
+                <option value="4">4+ комнат</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Состояние сейчас</label>
+            <select id="condition">
+                <option value="new">Новостройка (без отделки)</option>
+                <option value="old">Старый ремонт (требуется демонтаж)</option>
+                <option value="live">Жилое (требуется обновление)</option>
+            </select>
+        </div>
+        <button class="btn-calc" onclick="calculate()">Рассчитать стоимость</button>
+        
+        <div class="result" id="result">
+            <div class="price" id="totalPrice">0 ₽</div>
+            <div class="breakdown" id="breakdown"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const type = document.getElementById('type').value;
+            const area = parseInt(document.getElementById('area').value) || 45;
+            const rooms = document.getElementById('rooms').value;
+            const condition = document.getElementById('condition').value;
+
+            let pricePerSqm;
+            switch(type) {
+                case 'cosmetic': pricePerSqm = 3500; break;
+                case 'capital': pricePerSqm = 7500; break;
+                case 'euro': pricePerSqm = 12000; break;
+                default: pricePerSqm = 5000;
+            }
+
+            if (condition === 'old') pricePerSqm += 1500;
+            if (condition === 'new') pricePerSqm += 500;
+
+            let total = area * pricePerSqm;
+            const materials = Math.round(total * 0.4);
+            const work = Math.round(total * 0.6);
+
+            document.getElementById('totalPrice').textContent = total.toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('breakdown').innerHTML = 
+                `📐 Площадь: ${area} м²<br>` +
+                `🏗️ Тип: ${type === 'cosmetic' ? 'Косметический' : type === 'capital' ? 'Капитальный' : 'Евроремонт'}<br>` +
+                `💰 Материалы: ~${materials.toLocaleString('ru-RU')} ₽<br>` +
+                `🔧 Работа: ~${work.toLocaleString('ru-RU')} ₽<br>` +
+                `<small style="color: rgba(255,255,255,0.4)">* Примерный расчёт. Точная смета после осмотра объекта.</small>`;
+            
+            document.getElementById('result').classList.add('show');
+        }
+        calculate();
+    </script>
+</body>
+</html>
